@@ -1,0 +1,249 @@
+package emailAutomate;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+public class Emailautomate {
+    private WebDriver emailDriver;
+    private String emailAddress;
+    private WebDriverWait wait;
+
+    public Emailautomate() {
+    	
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--window-position=1000,0");
+        options.addArguments("--disable-notifications");
+        options.addArguments("--autoplay-policy=no-user-gesture-required");
+       // options.addArguments("--disable-popup-blocking");
+        //Blocks ad
+       // options.addArguments("--disable-plugins");
+     // options.addArguments("--disable-plugins-discovery");
+        
+        this.emailDriver = new ChromeDriver(options);
+        
+        // Maximize the window
+        this.emailDriver.manage().window().maximize();
+        
+        this.wait = new WebDriverWait(emailDriver, Duration.ofSeconds(30));
+        generateTempEmail();
+    }
+
+    private void generateTempEmail() {
+        try {
+            emailDriver.get("https://www.guerrillamail.com/");
+            Thread.sleep(3000);
+
+            JavascriptExecutor js = (JavascriptExecutor) emailDriver;
+            this.emailAddress = (String) js.executeScript("return document.getElementById('email-widget').innerText;");
+            System.out.println("Generated temporary email: " + emailAddress);
+
+        } catch (Exception e) {
+            System.out.println("Error generating email: " + e.getMessage());
+        }
+    }
+
+    public String getEmailAddress() {
+        return this.emailAddress;
+    }
+
+    // Method to wait for NEW email and open it
+    public String waitForAndOpenNewEmail(int timeoutSeconds) {
+        System.out.println("Waiting for NEW email to arrive...");
+        System.out.println("Timeout: " + timeoutSeconds + " seconds");
+        
+        long startTime = System.currentTimeMillis();
+        
+        // Make sure we're on inbox page
+        if (!emailDriver.getCurrentUrl().contains("inbox")) {
+            emailDriver.get("https://www.guerrillamail.com/inbox");
+            System.out.println("Navigated to inbox");
+            try { Thread.sleep(3000); } catch (InterruptedException e) {}
+        }
+        
+        // Get initial email count
+        int initialEmailCount = getCurrentEmailCount();
+        System.out.println("Initial emails found: " + initialEmailCount);
+        
+        while ((System.currentTimeMillis() - startTime) < (timeoutSeconds * 1000L)) {
+            try {
+                Thread.sleep(3000);
+                
+                // Refresh the inbox
+                emailDriver.navigate().refresh();
+                System.out.println("Refreshing inbox...");
+                Thread.sleep(2000);
+                
+                // Get current email count
+                int currentCount = getCurrentEmailCount();
+                System.out.println("Current emails found: " + currentCount);
+                
+                // Check if new email arrived
+                if (currentCount > initialEmailCount) {
+                    System.out.println("✅ New email detected! Opening...");
+                    
+                    // Try multiple ways to click the email
+                    boolean clicked = clickFirstEmail();
+                    
+                    if (clicked) {
+                        System.out.println("✅ Email opened successfully!");
+                        Thread.sleep(3000);
+                        
+                        // Get and return email content
+                        String emailContent = getEmailContent();
+                        return emailContent;
+                    } else {
+                        System.out.println("❌ Failed to click email, but email exists!");
+                        // Try one more time with JavaScript
+                        try {
+                            JavascriptExecutor js = (JavascriptExecutor) emailDriver;
+                            js.executeScript("document.querySelector('#email_list tr').click();");
+                            System.out.println("Clicked using JavaScript");
+                            Thread.sleep(3000);
+                            return getEmailContent();
+                        } catch (Exception ex) {
+                            System.out.println("All click methods failed: " + ex.getMessage());
+                        }
+                    }
+                }
+                
+            } catch (Exception e) {
+                System.out.println("Error checking emails: " + e.getMessage());
+            }
+        }
+        
+        System.out.println("⏰ Timeout reached - no new email arrived");
+        return null;
+    }
+    
+    // Helper method to try multiple ways of clicking the first email
+    private boolean clickFirstEmail() {
+        String[] selectors = {
+            "#email_list tr:first-child",
+            "#email_list tbody tr:first-child",
+            ".email-table tr:first-child",
+            "table#email_list tr:first-child",
+            "tr:first-child[data-id]",
+            "#email_list > tbody > tr:first-child"
+        };
+        
+        // Try each selector
+        for (String selector : selectors) {
+            try {
+                WebElement email = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(selector)));
+                email.click();
+                System.out.println("✓ Clicked using selector: " + selector);
+                return true;
+            } catch (Exception e) {
+                // Try next selector
+            }
+        }
+        
+        // Try finding by email subject (the chatboq invitation) - FIXED: changed 'driver' to 'emailDriver'
+        try {
+            WebElement chatboqEmail = emailDriver.findElement(By.xpath("//tr[contains(., 'chatboq')]"));
+            chatboqEmail.click();
+            System.out.println("✓ Clicked email containing 'chatboq'");
+            return true;
+        } catch (Exception e) {}
+        
+        // Try finding any email row and click it - FIXED: changed 'driver' to 'emailDriver'
+        try {
+            List<WebElement> rows = emailDriver.findElements(By.tagName("tr"));
+            for (WebElement row : rows) {
+                if (row.getText().contains("chatboq") || row.getText().contains("invite")) {
+                    row.click();
+                    System.out.println("✓ Clicked email row with text: " + row.getText().substring(0, Math.min(50, row.getText().length())));
+                    return true;
+                }
+            }
+        } catch (Exception e) {}
+        
+        // Last resort: Click any tr element - FIXED: changed 'driver' to 'emailDriver'
+        try {
+            WebElement anyRow = emailDriver.findElement(By.cssSelector("tr"));
+            anyRow.click();
+            System.out.println("✓ Clicked first available row");
+            return true;
+        } catch (Exception e) {}
+        
+        return false;
+    }
+    
+    // Helper method to get current email count
+    private int getCurrentEmailCount() {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) emailDriver;
+            Long emailCount = (Long) js.executeScript(
+                "return document.querySelectorAll('#email_list tr').length;"
+            );
+            return emailCount.intValue();
+        } catch (Exception e) {
+            System.out.println("Error getting email count: " + e.getMessage());
+            return 0;
+        }
+    }
+    
+    // Method to get email content from opened email
+    public String getEmailContent() {
+        try {
+            Thread.sleep(2000);
+            
+            // Try to get content from iframe
+            try {
+                WebElement emailFrame = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("emailFrame")));
+                emailDriver.switchTo().frame(emailFrame);
+                String content = emailDriver.findElement(By.tagName("body")).getText();
+                emailDriver.switchTo().defaultContent();
+                System.out.println("✅ Email content retrieved from iframe");
+                return content;
+            } catch (Exception e) {
+                // Try direct email body
+                WebElement emailBody = emailDriver.findElement(By.id("email_body"));
+                String content = emailBody.getText();
+                System.out.println("✅ Email content retrieved from body");
+                return content;
+            }
+        } catch (Exception e) {
+            System.out.println("Could not get email content: " + e.getMessage());
+            return null;
+        }
+    }
+    
+    // Method to extract invitation link from email
+    public String getInvitationLinkFromEmail() {
+        String content = getEmailContent();
+        if (content != null) {
+            System.out.println("Searching for invitation link in email...");
+            // Look for http links in the content
+            Pattern linkPattern = Pattern.compile("https?://[^\\s<>\"']+");
+            Matcher matcher = linkPattern.matcher(content);
+            
+            while (matcher.find()) {
+                String link = matcher.group();
+                if (link.contains("invite") || link.contains("accept") || link.contains("join") || link.contains("invitation")) {
+                    System.out.println("Found invitation link: " + link);
+                    return link;
+                }
+            }
+            System.out.println("No invitation link found in email");
+        }
+        return null;
+    }
+
+    public void closeEmailBrowser() {
+        if (emailDriver != null) {
+            emailDriver.quit();
+            System.out.println("Email browser closed");
+        }
+    }
+}
