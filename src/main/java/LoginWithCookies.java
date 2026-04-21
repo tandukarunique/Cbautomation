@@ -11,8 +11,8 @@ import java.time.Duration;
 
 public class LoginWithCookies {
 
-    static final String TOKEN    = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWlkIjoiZTYzODIyZmEtZjhmYy00MTRjLThjZWItN2U4NTIxZWRlYmRiIiwiZW1haWwiOiJwbGFuQGdtYWlsLmNvbSIsImV4cCI6MTc3NjM5MTQ1MX0.8BBclq88oK5SgMOc3Nc0lD-YRhxqWiwdNLLR9XW50fQ";
-    static final String EMAIL    = "plan@gmail.com";
+    static final String TOKEN    = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWlkIjoiZmI0ZjdiOGQtMzM5NS00NGY5LTg0NzItMjFhZTdmNjJiNGY5IiwiZW1haWwiOiJ1bmlxdWV0YW5kdWthcjg2NDVAZ21haWwuY29tIiwiZXhwIjoxNzc2NzU4MjM2fQ.GR5lHkl7t5vRYLnkTdkujuNMTrNVsxG-WNGI8ZGz3jY";
+    static final String EMAIL    = "uniquetandukar8645@gmail.com";
     static final String BASE_URL = "https://dev.chatboq.com";
 
     public static void main(String[] args) throws Exception {
@@ -38,7 +38,7 @@ public class LoginWithCookies {
             driver.manage().addCookie(new Cookie.Builder("accessToken", TOKEN)
                 .domain("dev.chatboq.com").path("/").isHttpOnly(true).build());
             driver.get(BASE_URL + "/dashboard");
-            Thread.sleep(4000);
+            Thread.sleep(2000);
             
             System.out.println("Logged in! URL: " + driver.getCurrentUrl());
 
@@ -54,15 +54,15 @@ public class LoginWithCookies {
             // ── Step 3: Click Stater plan Yearly via JavaScript ────────────────
             System.out.println("Selecting Stater plan Yearly...");
             wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//*[normalize-space(text())='Stater plan Yearly']")
+                By.xpath("//*[normalize-space(text())='Staterplan']")
             ));
-            WebElement staterPlanYearly = driver.findElement(
-                By.xpath("//*[normalize-space(text())='Stater plan Yearly']")
+            WebElement Staterplan = driver.findElement(
+                By.xpath("//*[normalize-space(text())='Staterplan']")
             );
-            js.executeScript("arguments[0].scrollIntoView({block:'center'});", staterPlanYearly);
+            js.executeScript("arguments[0].scrollIntoView({block:'center'});", Staterplan);
             Thread.sleep(500);
-            js.executeScript("arguments[0].click();", staterPlanYearly);
-            Thread.sleep(2000);
+            js.executeScript("arguments[0].click();", Staterplan);
+            Thread.sleep(500);
             System.out.println("Stater plan Yearly selected!");
             
             // ── Step 4: Click Switch Organization ───────────────────
@@ -81,8 +81,7 @@ public class LoginWithCookies {
             
             
 //Convo click garne
-         // ── Step 5: Select and open Demo chat ───────────────────
-            System.out.println("Step 5: Selecting Demo chat...");
+         
 
          // ── Step 5: Select and open Demo chat (Based on F12 HTML) ──
             System.out.println("Step 5: Selecting Demo chat...");
@@ -127,21 +126,21 @@ public class LoginWithCookies {
 
                     // Click to focus
                     editor.click();
-                    Thread.sleep(300);
+                    Thread.sleep(100);
 
                     // Type the message like a real user
                     editor.sendKeys("Message number " + i);
-                    Thread.sleep(300);
+                    Thread.sleep(100);
 
                     // Press Enter to send
                     editor.sendKeys(org.openqa.selenium.Keys.RETURN);
 
                     System.out.println("Sent message " + i + "/500");
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
 
                 } catch (Exception e) {
                     System.out.println("Error on message " + i + ": " + e.getMessage());
-                    Thread.sleep(2000);
+                    Thread.sleep(100);
                 }
             }
 
