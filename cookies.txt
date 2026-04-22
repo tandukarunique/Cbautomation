@@ -1,0 +1,2 @@
+access_token;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWlkIjoiOWNiMmY0NzEtMjQ1Ni00MTZiLWI4ZjQtMWFhMTg2Yjc5MDg4IiwiZW1haWwiOiJwbGFuQGdtYWlsLmNvbSIsImV4cCI6MTc3NjQwNjEyNH0.XG6ts7Ogh-K8Nspk07jTV6PHAXWP5T3iIkrS0BQobrc;dev.chatboq.com;/
+organization_id;007c6ea9-faf7-4c15-a0d1-0ea1c4879f66;dev.chatboq.com;/
