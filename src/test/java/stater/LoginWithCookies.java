@@ -19,7 +19,7 @@ import Ticket.NormalCustomer;
 
 public class LoginWithCookies {
 
-    static final String TOKEN    = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWlkIjoiNGE5NDY5MjAtOGZiOC00Y2Q3LWI3NWEtNTM2MmZhYzUxY2Q2IiwiZW1haWwiOiJ1bmlxdWV0YW5kdWthcjg2NDVAZ21haWwuY29tIiwiZXhwIjoxNzc2OTExODMzfQ.eVq16_tp8JuykWfmR_doE_QbXP1EgftlAC3WA-lgQ5Y";
+    static final String TOKEN    = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWlkIjoiNGE5NDY5MjAtOGZiOC00Y2Q3LWI3NWEtNTM2MmZhYzUxY2Q2IiwiZW1haWwiOiJ1bmlxdWV0YW5kdWthcjg2NDVAZ21haWwuY29tIiwiZXhwIjoxNzc2OTk4MjM4fQ.Vhc2FXxmX_ModMGM7zBu47Jo6bqLyrNHzxpHX-XlORs";
     static final String EMAIL    = "uniquetandukar8645@gmail.com";
     static final String BASE_URL = "https://dev.chatboq.com";
 
@@ -69,14 +69,15 @@ public class LoginWithCookies {
             // Step 3: Click Stater plan
             System.out.println("Selecting Stater plan Yearly...");
             wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//*[normalize-space(text())='Staterplan']")
+                By.xpath("//*[normalize-space(text())='StarterOnly']")
             ));
-            WebElement Staterplan = driver.findElement(
-                By.xpath("//*[normalize-space(text())='Staterplan']")
+            
+            WebElement StarterOnly = driver.findElement(
+                By.xpath("//*[normalize-space(text())='StarterOnly']")
             );
-            js.executeScript("arguments[0].scrollIntoView({block:'center'});", Staterplan);
+            js.executeScript("arguments[0].scrollIntoView({block:'center'});", StarterOnly);
             Thread.sleep(500);
-            js.executeScript("arguments[0].click();", Staterplan);
+            js.executeScript("arguments[0].click();", StarterOnly);
             Thread.sleep(1000);
             System.out.println("Stater plan Yearly selected!");
 
@@ -298,8 +299,10 @@ public class LoginWithCookies {
             guestCustomer.phNumber();
             guestCustomer.CustomerAddress();
             guestCustomer.selectTeam();
-            
-            
+            guestCustomer.SuggestedMember();
+            guestCustomer.TicketDescription();
+            guestCustomer.AgentNotes();
+            guestCustomer.Clickcreatebtn();
             
             
             

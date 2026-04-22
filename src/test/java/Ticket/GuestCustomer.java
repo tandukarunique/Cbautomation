@@ -2,6 +2,7 @@ package Ticket;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -63,7 +64,6 @@ public class GuestCustomer {
     	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@role='option']//span[text()='High']"))).click();
     }
     
-    
     public void FullName() {
     	try {
     		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='Customer Full Name Here']"))).sendKeys("Demo kumar");
@@ -92,23 +92,73 @@ public class GuestCustomer {
     }
     
     public void selectTeam() {
+    	WebElement teamDropdown = null;
+    	 
     	 try {
-    	        WebElement teamDropdown = wait.until(ExpectedConditions.elementToBeClickable(
-    	            By.xpath("//div[@role='dialog']//*[normalize-space()='Team' or normalize-space()='Team*']/following::input[@role='combobox'][1]")
-    	        ));
-    	        
-    	        js.executeScript("arguments[0].click();", teamDropdown);
-    	        System.out.println("✓ Team dropdown clicked");
-    	        Thread.sleep(500);
-            
-        } catch (Exception e) {
-            System.out.println("Failed to click team dropdown: " + e.getMessage());
-        }
-        
-        
-        
-     }
+    		  teamDropdown=wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@role='combobox' and @aria-autocomplete='list']")));
+    		 teamDropdown.click();
+    	 }
+    	 catch(Exception e) {
+    		 System.out.println("Strategy le nih bayena" + e.getMessage());
+    	 }
+    	 
+    	 if (teamDropdown != null) {
+    	        teamDropdown.sendKeys(Keys.ARROW_DOWN);
+    	        teamDropdown.sendKeys(Keys.ENTER);
+    	        System.out.println(" First option selected using keyboard");
+    	    } else {
+    	        System.out.println("Team dropdown not found");
+    	   }
     }
+    
+    public void SuggestedMember() throws InterruptedException {
+	WebElement suggestedmemberdropdown = null;
+
+    try {
+         suggestedmemberdropdown = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//div[@id='react-select-7-placeholder']/ancestor::div[contains(@class,'css-') and contains(@class,'control')]")
+        ));
+        suggestedmemberdropdown.click();
+        System.out.println("\n Suggested Member click bhayo...)");
+        
+    } catch(Exception e1) {
+        System.out.println("Strategy 1 failed: " + e1.getMessage());
+    }
+    Thread.sleep(1000);
+    if(suggestedmemberdropdown!= null) {
+    	   WebElement input = driver.findElement(By.id("react-select-7-input"));
+    	input.sendKeys(Keys.ARROW_DOWN);
+    	input.sendKeys(Keys.ENTER);
+    }
+   
+    
+    
+    
+    
+	}
+    
+    public void TicketDescription() {
+    	
+    	try {
+    		wait.until(ExpectedConditions.elementToBeClickable(By.id("description"))).sendKeys("Demo");
+    		
+    	}
+    	catch(Exception e1) {
+    		System.out.println("Bhayena strategy2 pani...."+ e1.getMessage());
+    	}
+    	
+    	
+
+    }
+    
+    public void AgentNotes() {
+    	wait.until(ExpectedConditions.elementToBeClickable(By.id("notes"))).sendKeys("Demo");
+    }
+    
+    public void Clickcreatebtn() {
+    	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[text()='Create Guest Ticket']"))).click();
+    }
+       }
     
     
     
