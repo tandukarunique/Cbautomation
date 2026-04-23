@@ -21,20 +21,22 @@ public class GuestCustomer {
         this.js = (JavascriptExecutor) driver;
     }
     
-
     
-    public void clickGuestCustomer() {
+    public void clickGuestCustomer() throws InterruptedException {
         // Wait for dialog
+    	Thread.sleep(2000);
+    	
+    	
         wait.until(ExpectedConditions.presenceOfElementLocated(
             By.xpath("//div[@role='dialog']")
         ));
         
         // Using CSS Selector with aria-controls (best approach)
-        WebElement guestOption = wait.until(ExpectedConditions.elementToBeClickable(
+        WebElement guestOption = wait.until(ExpectedConditions.presenceOfElementLocated(
             By.cssSelector("button[aria-controls*='guest_customer']")
         ));
         guestOption.click();
-        System.out.println("✓ Guest Customer clicked");
+        System.out.println(" Guest Customer clicked");
     }
     
     public void enterPreciseTopic(String topic) {
@@ -111,31 +113,30 @@ public class GuestCustomer {
     	   }
     }
     
+    
     public void SuggestedMember() throws InterruptedException {
-	WebElement suggestedmemberdropdown = null;
-
     try {
-         suggestedmemberdropdown = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//div[@id='react-select-7-placeholder']/ancestor::div[contains(@class,'css-') and contains(@class,'control')]")
-        ));
-        suggestedmemberdropdown.click();
-        System.out.println("\n Suggested Member click bhayo...)");
         
-    } catch(Exception e1) {
-        System.out.println("Strategy 1 failed: " + e1.getMessage());
+        WebElement suggestedmemberdropdown = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//div[contains(text(),'Select Suggested Member')]/ancestor::div[contains(@class,'control')]")
+        ));
+        js.executeScript("arguments[0].click();", suggestedmemberdropdown);
+        System.out.println("Suggested Member dropdown clicked");
+        Thread.sleep(1000);
+
+        
+        WebElement input = driver.findElement(
+            By.xpath("//div[contains(text(),'Select Suggested Member')]/following-sibling::div//input")
+        );
+        input.sendKeys(Keys.ARROW_DOWN);
+        input.sendKeys(Keys.ENTER);
+        System.out.println("Suggested Member selected");
+
+    } catch (Exception e) {
+        System.out.println("SuggestedMember failed: " + e.getMessage());
     }
-    Thread.sleep(1000);
-    if(suggestedmemberdropdown!= null) {
-    	   WebElement input = driver.findElement(By.id("react-select-7-input"));
-    	input.sendKeys(Keys.ARROW_DOWN);
-    	input.sendKeys(Keys.ENTER);
     }
-   
     
-    
-    
-    
-	}
     
     public void TicketDescription() {
     	
@@ -151,14 +152,19 @@ public class GuestCustomer {
 
     }
     
+    
     public void AgentNotes() {
     	wait.until(ExpectedConditions.elementToBeClickable(By.id("notes"))).sendKeys("Demo");
     }
     
-    public void Clickcreatebtn() {
+   public void Clickcreatebtn() throws InterruptedException {
     	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[text()='Create Guest Ticket']"))).click();
+    	Thread.sleep(2000);
     }
-       }
+    
+   
+    }
+       
     
     
     

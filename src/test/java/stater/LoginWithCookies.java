@@ -95,6 +95,35 @@ public class LoginWithCookies {
             Thread.sleep(2000);
             System.out.println("Switch Organization clicked!");
 
+            
+            
+            
+            
+            
+            
+            
+          /*  
+            WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
+                ));
+                ticketsLink.click();
+                System.out.println(" Clicked on Tickets");
+                Thread.sleep(1500);
+                
+
+                */
+                
+                
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 
             /*
 
@@ -213,14 +242,18 @@ public class LoginWithCookies {
             
             
             // ── Ticket section ───────────────────────────────────────────────
-           
-                try {
+           /*
+                
                     WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
                         By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
                     ));
                     ticketsLink.click();
                     System.out.println(" Clicked on Tickets");
                     Thread.sleep(1500);
+                    
+
+                    for (int i = 1; i <= 50; i++) {
+                    	System.out.println("Creating Guest Ticket " + i + " of 10");
                     
                     WebElement createTicket = wait.until(ExpectedConditions.elementToBeClickable(
                         By.xpath("//button[.//section[text()='Create Ticket']]")
@@ -229,21 +262,29 @@ public class LoginWithCookies {
                     System.out.println(" Create Ticket button clicked");
                     Thread.sleep(1500);
                     
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println("Thread interrupted: " + e.getMessage());
-                } catch (Exception e) {
-                    System.out.println("Ticket button click failed: " + e.getMessage());
-                    e.printStackTrace();
-                }
+                  //Guest Customer
+                    GuestCustomer guestCustomer = new GuestCustomer(driver);
+                    guestCustomer.clickGuestCustomer();
+                    guestCustomer.enterPreciseTopic("Test ticket from guest user");
+                    guestCustomer.customeremail();
+                    guestCustomer.prioritydropdown();
+                    guestCustomer.FullName();
+                    guestCustomer.phNumber();
+                    guestCustomer.CustomerAddress();
+                    guestCustomer.selectTeam();
+                    guestCustomer.SuggestedMember();
+                    guestCustomer.TicketDescription();
+                    guestCustomer.AgentNotes();
+                    guestCustomer.Clickcreatebtn();
+                    Thread.sleep(1000);
+             
+                    }
             
             
+*/
             
-            
-
-            /*
-            
-            // ── Loop: Create 100 tickets ─────────────────────────────────────
+          /*  
+           //  ── Loop: Create 100 tickets in normal ─────────────────────────────────────
             for (int i = 1; i <= totalTickets; i++) {
                 System.out.println("\n========================================");
                 System.out.println("🎫 Creating Ticket " + i + " of " + totalTickets);
@@ -285,36 +326,32 @@ public class LoginWithCookies {
                     }
                 }
             }
+
             */
             
+                
+                
+                
+                
+                
+                
+           //Clients Section 
+                
+            CreateClients createClients = new CreateClients(driver,wait,js);
+            createClients.clickclientoption();
+            createClients.clickNewEntry();
+            Thread.sleep(1000);
             
-            
-            //Guest Customer
-            GuestCustomer guestCustomer = new GuestCustomer(driver);
-            guestCustomer.clickGuestCustomer();
-            guestCustomer.enterPreciseTopic("Test ticket from guest user");
-            guestCustomer.customeremail();
-            guestCustomer.prioritydropdown();
-            guestCustomer.FullName();
-            guestCustomer.phNumber();
-            guestCustomer.CustomerAddress();
-            guestCustomer.selectTeam();
-            guestCustomer.SuggestedMember();
-            guestCustomer.TicketDescription();
-            guestCustomer.AgentNotes();
-            guestCustomer.Clickcreatebtn();
-            
-            
-            
-            
-            
-            
-            
-            
-            
+            createClients.Fullname();
+            createClients.Email();
+            createClients.phnum();
+            createClients.selectPlatform();
+            createClients.selectCountry();  
+                
+                
 
         } catch (Exception e) {
-            System.out.println("❌ Error in main execution: " + e.getMessage());
+            System.out.println(" Error in main execution: " + e.getMessage());
             e.printStackTrace();
         } finally {
             Thread.sleep(1000);
@@ -323,13 +360,7 @@ public class LoginWithCookies {
           //      emailAutomate.closeEmailBrowser();
           //  }
 
-            
-          /*  System.out.println("📊 FINAL RESULTS");
-           
-            System.out.println("Total Attempted : " + totalTickets);
-            System.out.println(" Successful   : " + successCount);
-            System.out.println("Failed        : " + failCount);
-            */
+        
             
             System.out.println("Process completed. Browser can be closed manually.");
         }

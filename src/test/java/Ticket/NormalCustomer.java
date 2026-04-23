@@ -151,6 +151,6 @@ public class NormalCustomer {
         System.out.println("✓ Create Ticket clicked");
 
         Thread.sleep(2000);
-        System.out.println("✅ Ticket form submitted!");
+        System.out.println(" Ticket form submitted!");
     }
 }
