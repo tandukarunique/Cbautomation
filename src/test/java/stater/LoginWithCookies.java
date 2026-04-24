@@ -13,6 +13,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
+import java.util.List;
 
 import Ticket.GuestCustomer;
 import Ticket.NormalCustomer;
@@ -52,55 +53,38 @@ public class LoginWithCookies {
             js.executeScript("localStorage.setItem('rememberedEmail', arguments[0]);", EMAIL);
             driver.manage().addCookie(new Cookie.Builder("accessToken", TOKEN)
                 .domain("dev.chatboq.com").path("/").isHttpOnly(true).build());
-            driver.get(BASE_URL + "/dashboard");
+            driver.get(BASE_URL + "/4758a134-3b32-4308-a5d4-fd3a3aa7f1ed/inbox");
             Thread.sleep(2000);
 
             System.out.println("Logged in! URL: " + driver.getCurrentUrl());
 
-            // Step 2: Open workspace dropdown
-            System.out.println("Opening workspace dropdown...");
-            WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//*[normalize-space(text())='loading workspace']/..")
-            ));
-            js.executeScript("arguments[0].click();", dropdown);
-            Thread.sleep(1500);
-            System.out.println("Dropdown opened!");
-
-            // Step 3: Click Stater plan
-            System.out.println("Selecting org ...");
-            wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//*[normalize-space(text())='All']")
-            ));
             
-            WebElement All = driver.findElement(
-                By.xpath("//*[normalize-space(text())='All']")
-            );
-            js.executeScript("arguments[0].scrollIntoView({block:'center'});", All);
-            Thread.sleep(500);
-            js.executeScript("arguments[0].click();", All);
-            Thread.sleep(1000);
-            System.out.println("Stater plan Yearly selected!");
+            // Step 2: Click on profile/workspace icon to open sidebar menu
+            System.out.println("Clicking circle wala left side ko.....");
+            try {
 
-            // Step 4: Click Switch Organization
-            System.out.println("Step 4: Clicking Switch Organization...");
-            js.executeScript(
-                "var btns = document.querySelectorAll('button');" +
-                "for(var i=0; i<btns.length; i++){" +
-                "  if(btns[i].textContent.includes('Switch') || " +
-                "     btns[i].textContent.includes('Organization')){" +
-                "    btns[i].click(); break;" +
-                "  }" +
-                "}"
-            );
-            Thread.sleep(2000);
+                String cssSelector = "div.bg-primary-color.flex.h-8.w-8.shrink-0.items-center.justify-center.rounded-full.font-medium.text-background";
+                            
+                WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(5));
+                WebElement element = wait1.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssSelector)));
+                element.click();
+                                                
+            } catch (Exception e) {
+                System.err.println("Failed to click element: " + e.getMessage());
+            } 
+            
+            //Step 3: Click on org name
+            
+            try {
+            	WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(10));
+            	wait1.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[text()='All']"))).click();
+            }
+            catch(Exception e) {
+            	System.out.println("Org name click bhayena...");
+            }
+     
             System.out.println("Switch Organization clicked!");
 
-            
-            
-            
-            
-            
-            
             
           /*  
             WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -118,16 +102,10 @@ public class LoginWithCookies {
             
             
             
-            
-            
-            
-            
-            
-            
 
             
             /*
-            // ── Step 5: Select and open Demo chat
+            // ── Step 4: Select and open Demo chat
             System.out.println("Step 5: Selecting Demo chat...");
             Thread.sleep(1000);
 
@@ -342,7 +320,6 @@ public class LoginWithCookies {
             createClients.clickclientoption();
             createClients.clickNewEntry();
             Thread.sleep(1000);
-            
             createClients.Fullname();
             createClients.Email();
             createClients.phnum();
