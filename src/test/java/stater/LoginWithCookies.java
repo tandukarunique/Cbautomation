@@ -19,7 +19,7 @@ import Ticket.NormalCustomer;
 
 public class LoginWithCookies {
 
-    static final String TOKEN    = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWlkIjoiNGE5NDY5MjAtOGZiOC00Y2Q3LWI3NWEtNTM2MmZhYzUxY2Q2IiwiZW1haWwiOiJ1bmlxdWV0YW5kdWthcjg2NDVAZ21haWwuY29tIiwiZXhwIjoxNzc2OTk4MjM4fQ.Vhc2FXxmX_ModMGM7zBu47Jo6bqLyrNHzxpHX-XlORs";
+    static final String TOKEN    = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWlkIjoiNGZjMWYxZGYtY2E1Yy00YzEwLWFjMzYtYjA1YjNkZTdkNmVhIiwiZW1haWwiOiJ1bmlxdWV0YW5kdWthcjg2NDVAZ21haWwuY29tIiwiZXhwIjoxNzc3MDg5MDA2fQ.tg7v9aLpSqN3Jp-Oy3k-pi16gQIz5pgCVGmSesff7pk";
     static final String EMAIL    = "uniquetandukar8645@gmail.com";
     static final String BASE_URL = "https://dev.chatboq.com";
 
@@ -67,17 +67,17 @@ public class LoginWithCookies {
             System.out.println("Dropdown opened!");
 
             // Step 3: Click Stater plan
-            System.out.println("Selecting Stater plan Yearly...");
+            System.out.println("Selecting org ...");
             wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//*[normalize-space(text())='StarterOnly']")
+                By.xpath("//*[normalize-space(text())='All']")
             ));
             
-            WebElement StarterOnly = driver.findElement(
-                By.xpath("//*[normalize-space(text())='StarterOnly']")
+            WebElement All = driver.findElement(
+                By.xpath("//*[normalize-space(text())='All']")
             );
-            js.executeScript("arguments[0].scrollIntoView({block:'center'});", StarterOnly);
+            js.executeScript("arguments[0].scrollIntoView({block:'center'});", All);
             Thread.sleep(500);
-            js.executeScript("arguments[0].click();", StarterOnly);
+            js.executeScript("arguments[0].click();", All);
             Thread.sleep(1000);
             System.out.println("Stater plan Yearly selected!");
 
@@ -125,8 +125,8 @@ public class LoginWithCookies {
             
             
 
+            
             /*
-
             // ── Step 5: Select and open Demo chat
             System.out.println("Step 5: Selecting Demo chat...");
             Thread.sleep(1000);
@@ -137,11 +137,12 @@ public class LoginWithCookies {
                 );
                 js.executeScript("arguments[0].click();", demoChat);
                 System.out.println("Demo chat selected using contains text!");
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (Exception e2) {
                 System.out.println("Could not find Demo chat: " + e2.getMessage());
             }
 
+           
             // ── Send "Demo" message
             WebElement input = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//div[@contenteditable='true']")
@@ -151,7 +152,7 @@ public class LoginWithCookies {
             Thread.sleep(500);
             input.sendKeys(Keys.ENTER);
             System.out.println("Demo message sent!");
-            Thread.sleep(2000);
+            Thread.sleep(500);
 
             // ── EDIT
             WebElement demoMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -281,9 +282,9 @@ public class LoginWithCookies {
                     }
             
             
-*/
+            */
             
-          /*  
+            /*  
            //  ── Loop: Create 100 tickets in normal ─────────────────────────────────────
             for (int i = 1; i <= totalTickets; i++) {
                 System.out.println("\n========================================");
@@ -347,6 +348,10 @@ public class LoginWithCookies {
             createClients.phnum();
             createClients.selectPlatform();
             createClients.selectCountry();  
+            createClients.enterLocation("ktm");
+            createClients.Profilelink();
+            
+            
                 
                 
 

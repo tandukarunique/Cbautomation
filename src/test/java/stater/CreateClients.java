@@ -74,12 +74,48 @@ public class CreateClients {
     }
     
     public void selectCountry() {
-    	
-    	wait.until(ExpectedConditions.elementToBeClickable(
-    	    By.xpath("//button[@role='combobox']//span[text()='Select Country']")
-    	)).click();
+
+            wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[@data-slot='select-trigger' and .//span[@data-slot='select-value' and text()='Select Country']]")
+            )).click();
+            System.out.println("Approach succeeded: Located by data-slot and span text");
+          
+            try {
+                WebElement hiddenSelect = driver.findElement(By.cssSelector("select[name='country']"));
+                ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].value = '81';" +
+                    "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));",
+                    hiddenSelect
+                );
+                System.out.println("Nepal set via hidden select successfully");
+            } catch (Exception e) {
+                System.out.println("Failed to set Nepal via hidden select: " + e.getMessage());
+                throw new RuntimeException("Could not set Nepal on hidden select", e);
+            }
+        
+     driver.findElement(By.xpath("//h2[data-slot='dialog-title']")).click();
+        
+    }
+ 
+    public void enterLocation(String location) throws InterruptedException {
+        // Wait for element to be clickable AND enabled
+        WebElement locationField = wait.until(ExpectedConditions.elementToBeClickable(By.id("location")));
+        
+        // Optional: Check if enabled
+        if (locationField.isEnabled()) {
+        	locationField.click();
+            locationField.clear();
+            locationField.sendKeys(location);
+        } else {
+            throw new RuntimeException("Location field is disabled");
+        }
+        driver.findElement(By.tagName("body")).click();
+       
     }
     
+    public void Profilelink() {
+    	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[text()='Add Profile Link']"))).click();
+    }
     
     
     
