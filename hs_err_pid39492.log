@@ -1,0 +1,237 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 4194304 bytes. Error detail: G1 virtual space
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   This process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3618), pid=39492, tid=37220
+#
+# JRE version:  (17.0.17+10) (build )
+# Java VM: OpenJDK 64-Bit Server VM (17.0.17+10, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -XX:+ShowCodeDetailsInExceptionMessages stater.LoginWithCookies
+
+Host: Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz, 8 cores, 15G,  Windows 11 , 64 bit Build 26100 (10.0.26100.8246)
+Time: Thu Apr 23 09:12:16 2026 Nepal Standard Time elapsed time: 1.738171 seconds (0d 0h 0m 1s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000001edb0a00950):  JavaThread "Unknown thread" [_thread_in_vm, id=37220, stack(0x0000002f06800000,0x0000002f06900000)]
+
+Stack: [0x0000002f06800000,0x0000002f06900000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x683fb9]
+V  [jvm.dll+0x83a1b5]
+V  [jvm.dll+0x83bc2e]
+V  [jvm.dll+0x83c2b3]
+V  [jvm.dll+0x248eff]
+V  [jvm.dll+0x680d79]
+V  [jvm.dll+0x675b7a]
+V  [jvm.dll+0x3091a7]
+V  [jvm.dll+0x310776]
+V  [jvm.dll+0x360bd3]
+V  [jvm.dll+0x360dfd]
+V  [jvm.dll+0x2e022c]
+V  [jvm.dll+0x2e1138]
+V  [jvm.dll+0x80c6cb]
+V  [jvm.dll+0x36e841]
+V  [jvm.dll+0x7eb2a5]
+V  [jvm.dll+0x3f444b]
+V  [jvm.dll+0x3f5f31]
+C  [jli.dll+0x52d0]
+C  [ucrtbase.dll+0x37b0]
+C  [KERNEL32.DLL+0x2e8d7]
+C  [ntdll.dll+0x8c3fc]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007ff8eefd7f58, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x000001edb0a707d0 GCTaskThread "GC Thread#0" [stack: 0x0000002f06900000,0x0000002f06a00000] [id=30976]
+  0x000001edb0a81440 ConcurrentGCThread "G1 Main Marker" [stack: 0x0000002f06a00000,0x0000002f06b00000] [id=28596]
+  0x000001edb0a81d70 ConcurrentGCThread "G1 Conc#0" [stack: 0x0000002f06b00000,0x0000002f06c00000] [id=34060]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ff8ee790d57]
+
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x000001edb09fc9a0] Heap_lock - owner thread: 0x000001edb0a00950
+
+Heap address: 0x0000000701e00000, size: 4066 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 1.
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0, Narrow klass range: 0x0
+
+GC Precious Log:
+<Empty>
+
+Heap:
+ garbage-first heap   total 0K, used 0K [0x0000000701e00000, 0x0000000800000000)
+  region size 2048K, 0 young (0K), 0 survivors (0K)
+
+[error occurred during error reporting (printing heap information), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ff8eeb7d5c9]
+
+GC Heap History (0 events):
+No events
+
+Dll operation events (1 events):
+Event: 0.008 Loaded shared library C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\java.dll
+
+Deoptimization events (0 events):
+No events
+
+Classes loaded (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Memory protections (0 events):
+No events
+
+Nmethod flushes (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff747a90000 - 0x00007ff747a9e000 	C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\javaw.exe
+0x00007ff9dcf40000 - 0x00007ff9dd1a7000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ff9dbf50000 - 0x00007ff9dc019000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ff9da6f0000 - 0x00007ff9daae4000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ff9da160000 - 0x00007ff9da2ab000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ff9d3ec0000 - 0x00007ff9d3ede000 	C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\VCRUNTIME140.dll
+0x00007ff9d3ea0000 - 0x00007ff9d3eb8000 	C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\jli.dll
+0x00007ff9db930000 - 0x00007ff9dbaf5000 	C:\WINDOWS\System32\USER32.dll
+0x00007ff9da080000 - 0x00007ff9da0a7000 	C:\WINDOWS\System32\win32u.dll
+0x00007ff9c0590000 - 0x00007ff9c0823000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.8115_none_3e075c82e3354f9c\COMCTL32.dll
+0x00007ff9dbe10000 - 0x00007ff9dbe3b000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ff9dc020000 - 0x00007ff9dc0c9000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ff9daaf0000 - 0x00007ff9dac1b000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ff9da0b0000 - 0x00007ff9da153000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ff9dadc0000 - 0x00007ff9dadf2000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ff9d2520000 - 0x00007ff9d252c000 	C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\vcruntime140_1.dll
+0x00007ff9c5a00000 - 0x00007ff9c5a8d000 	C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\msvcp140.dll
+0x00007ff8ee4a0000 - 0x00007ff8ef10b000 	C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\server\jvm.dll
+0x00007ff9dbcc0000 - 0x00007ff9dbd76000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ff9db6a0000 - 0x00007ff9db747000 	C:\WINDOWS\System32\sechost.dll
+0x00007ff9dcc90000 - 0x00007ff9dcda8000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ff9dbd80000 - 0x00007ff9dbe00000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ff9d9670000 - 0x00007ff9d96ce000 	C:\WINDOWS\SYSTEM32\POWRPROF.dll
+0x00007ff9d38f0000 - 0x00007ff9d38fb000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ff9c5f00000 - 0x00007ff9c5f36000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ff9d9650000 - 0x00007ff9d9664000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
+0x00007ff9d85a0000 - 0x00007ff9d85bb000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ff9d2510000 - 0x00007ff9d251a000 	C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\jimage.dll
+0x00007ff9d7760000 - 0x00007ff9d79a2000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ff9dae00000 - 0x00007ff9db182000 	C:\WINDOWS\System32\combase.dll
+0x00007ff9dbe70000 - 0x00007ff9dbf48000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007ff9bc100000 - 0x00007ff9bc13b000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ff9dac20000 - 0x00007ff9dacc5000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ff9d1df0000 - 0x00007ff9d1e15000 	C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\java.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.8115_none_3e075c82e3354f9c;C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin\server
+
+VM Arguments:
+jvm_args: -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -XX:+ShowCodeDetailsInExceptionMessages 
+java_command: stater.LoginWithCookies
+java_class_path (initial): C:\Users\HomePC\eclipse-workspace\chatboqbasic\target\test-classes;C:\Users\HomePC\eclipse-workspace\chatboqbasic\target\classes;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-java\4.15.0\selenium-java-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-api\4.15.0\selenium-api-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.15.0\selenium-chrome-driver-4.15.0.jar;C:\Users\HomePC\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.15.0\selenium-chromium-driver-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-json\4.15.0\selenium-json-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.15.0\selenium-manager-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v117\4.15.0\selenium-devtools-v117-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v118\4.15.0\selenium-devtools-v118-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v119\4.15.0\selenium-devtools-v119-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v85\4.15.0\selenium-devtools-v85-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.15.0\selenium-edge-driver-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.15.0\selenium-firefox-driver-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-http\4.15.0\selenium-http-4.15.0.jar;C:\Users\HomePC\.m2\repository\dev\failsafe\failsafe\3.3.2\failsafe-3.3.2.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.15.0\selenium-ie-driver-4.15.0.jar;C:\Users\HomePC\.m2\repository\org\seleniumhq\selenium\selenium-remote-
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 268435456                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 4263510016                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool ShowCodeDetailsInExceptionMessages       = true                                   {manageable} {command line}
+   size_t SoftMaxHeapSize                          = 4263510016                             {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\
+PATH=C:/Users/HomePC/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.9.v20251105-0741/jre/bin/server;C:/Users/HomePC/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.9.v20251105-0741/jre/bin;C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-25.0.1.8-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Mullvad VPN\resources;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2023.3\plugins\maven\apache-maven-3.9.12\bin;C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-25.0.1.8-hotspot\bin;C:\Users\HomePC\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin;C:\Users\HomePC\AppData\Local\Programs\Python\Python314\Scripts\;C:\Users\HomePC\AppData\Local\Programs\Python\Python314\;C:\Users\HomePC\AppData\Local\Microsoft\WindowsApps;C:\Users\HomePC\AppData\Local\Programs\Microsoft VS Code\bin;C:\MinGW\bin;C:\Users\HomePC\AppData\Roaming\npm;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2023.3\bin;;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\HomePC\.dotnet\tools;C:\WINDOWS\system32;
+USERNAME=HomePC
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
+TMP=C:\Users\HomePC\AppData\Local\Temp
+TEMP=C:\Users\HomePC\AppData\Local\Temp
+
+
+
+Periodic native trim disabled
+
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 11 , 64 bit Build 26100 (10.0.26100.8246)
+OS uptime: 0 days 7:58 hours
+
+CPU: total 8 (initial active 8) (4 cores per cpu, 2 threads per core) family 6 model 142 stepping 10 microcode 0xf4, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, rtm, adx, fma, vzeroupper, clflush, clflushopt
+Processor Information for all 8 processors :
+  Max Mhz: 2112, Current Mhz: 1910, Mhz Limit: 1900
+
+Memory: 4k page, system-wide physical 16258M (2773M free)
+TotalPageFile size 36738M (AvailPageFile size 3M)
+current process WorkingSet (physical memory assigned to process): 12M, peak: 12M
+current process commit charge ("private bytes"): 317M, peak: 321M
+
+vm_info: OpenJDK 64-Bit Server VM (17.0.17+10) for windows-amd64 JRE (17.0.17+10), built on Oct 21 2025 23:25:32 by "admin" with unknown MS VC++:1942
+
+END.
