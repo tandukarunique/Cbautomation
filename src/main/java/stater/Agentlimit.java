@@ -145,41 +145,55 @@ public class Agentlimit {
         emailField.sendKeys(tempEmail);
         Thread.sleep(100);
         
-        Select roleSelect = new Select(driver.findElement(By.xpath("//select[@name='role_ids']")));
-        roleSelect.selectByVisibleText("Admin");
+        //Select roleSelect = new Select(driver.findElement(By.xpath("//select[@name='role_ids']")));
+        //roleSelect.selectByVisibleText("Admin");
         
-        selectTeam();
         
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[text()='Invite Team Member']"))).click();
-        System.out.println("Invitation sent successfully");
-        return tempEmail;
+        
+        
+        
+        
+     // Select role from custom React Select dropdown 
+        
+            WebElement roleInput = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//input[@role='combobox' and contains(@aria-describedby, 'react-select')] | //input[contains(@id, 'react-select') and @aria-haspopup='true']")
+            ));
+            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", roleInput);
+            Thread.sleep(500);
+            roleInput.click();
+            Thread.sleep(500);
+            roleInput.sendKeys("Admin");
+            Thread.sleep(1000);
+            roleInput.sendKeys(Keys.ENTER);
+            System.out.println("Role selected: Admin");
+       
+        
+            //Select team   
+            selectTeam();
+        
+            //Invitation pathaune btn
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[text()='Invite Team Member']"))).click();
+            System.out.println("Invitation sent successfully");
+            return tempEmail;
     }
     
     private void selectTeam() throws InterruptedException {
-        try {
-            WebElement input = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//input[@id='react-select-2-input']")
-            ));
-            
-            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", input);
-            Thread.sleep(500);
-            js.executeScript("arguments[0].click();", input);
-            Thread.sleep(500);
-            
-            input.sendKeys(Keys.ARROW_DOWN);
-            Thread.sleep(1500);
-            
-            List<WebElement> teams = driver.findElements(By.xpath(
-                "//div[contains(@class, 'option')] | //div[@role='option']"
-            ));
-            
-            if (!teams.isEmpty()) {
-                js.executeScript("arguments[0].click();", teams.get(0));
-                System.out.println("Team selected: " + teams.get(0).getText());
-            }
-        } catch (Exception e) {
-            System.out.println("Team selection skipped: " + e.getMessage());
-        }
+    			
+    			try {
+    			    WebElement teamInput = wait.until(ExpectedConditions.elementToBeClickable(
+    			        By.xpath("(//input[contains(@id, 'react-select') and @role='combobox'])[2]")
+    			    ));
+    			    js.executeScript("arguments[0].scrollIntoView({block: 'center'});", teamInput);
+    			    Thread.sleep(500);
+    			    teamInput.click();
+    			    Thread.sleep(500);
+    			    teamInput.sendKeys(Keys.ARROW_DOWN);
+    			    Thread.sleep(1000);
+    			    teamInput.sendKeys(Keys.ENTER);
+    			    System.out.println("Team selected");
+    			} catch (Exception e) {
+    			    System.out.println("Team selection failed: " + e.getMessage());
+    			}
     }
     
     private boolean acceptInvitation() throws InterruptedException {

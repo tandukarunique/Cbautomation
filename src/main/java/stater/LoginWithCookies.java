@@ -35,11 +35,12 @@ public class LoginWithCookies {
             "--disable-dev-shm-usage",
             "--remote-allow-origins=*"
         );
+        
 
         WebDriver driver = new ChromeDriver(options);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-       // Emailautomate emailAutomate = null;
+        Emailautomate emailAutomate = new Emailautomate(true);
        
         try {
             driver.manage().window().maximize();
@@ -59,7 +60,7 @@ public class LoginWithCookies {
             		// Org name click garera switch garne
                 
             WebElement starterRow = wait.until(ExpectedConditions.presenceOfElementLocated(
-            By.xpath("//span[text()='All']/ancestor::div[contains(@class,'rounded-md border')]")
+            By.xpath("//span[text()='Allnew']/ancestor::div[contains(@class,'rounded-md border')]")
             ));
             starterRow.findElement(By.xpath(".//section[text()='Switch']")).click();
             System.out.println("Switched to Starter! (Method 1)");
@@ -100,58 +101,200 @@ public class LoginWithCookies {
                     
                     
                     
+                    /*
+            // ── EDIT
+            WebElement demoMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//p[contains(@class,'leading-7')]//span[contains(text(),'Demo')]")
+            ));
+            new Actions(driver).moveToElement(demoMessage).perform();
+            Thread.sleep(2000);
 
-            /*
+            WebElement trigger = (WebElement) js.executeScript(
+                "for(var s of document.querySelectorAll('p[class*=\"leading-7\"] span')){" +
+                "  if(s.textContent.trim()==='Demo'){" +
+                "    var c=s.parentElement;" +
+                "    while(c && c.tagName!=='BODY'){" +
+                "      var t=c.querySelector('[data-slot=\"dropdown-menu-trigger\"]');" +
+                "      if(t) return t;" +
+                "      c=c.parentElement;" +
+                "    }" +
+                "  }" +
+                "} return null;"
+            );
+
+            new Actions(driver)
+                .moveToElement(demoMessage).pause(Duration.ofMillis(800))
+                .moveToElement(trigger).pause(Duration.ofMillis(500))
+                .click().perform();
+            Thread.sleep(2000);
+
+            driver.findElement(By.xpath("//*[normalize-space(text())='Edit']")).click();
+            Thread.sleep(1000);
+
+            WebElement editInput = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[@contenteditable='true']")
+            ));
+            editInput.click();
+            editInput.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+            editInput.sendKeys("message edited");
+            editInput.sendKeys(Keys.ENTER);
+            System.out.println("Message edited successfully!");
+            Thread.sleep(2000);
+
+            // ── DELETE
+            WebElement editedMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//p[contains(@class,'leading-7')]//span[contains(text(),'message edited')]")
+            ));
+            new Actions(driver).moveToElement(editedMessage).perform();
+            Thread.sleep(2000);
+
+            WebElement triggerDelete = (WebElement) js.executeScript(
+                "for(var s of document.querySelectorAll('p[class*=\"leading-7\"] span')){" +
+                "  if(s.textContent.trim()==='message edited'){" +
+                "    var c=s.parentElement;" +
+                "    while(c && c.tagName!=='BODY'){" +
+                "      var t=c.querySelector('[data-slot=\"dropdown-menu-trigger\"]');" +
+                "      if(t) return t;" +
+                "      c=c.parentElement;" +
+                "    }" +
+                "  }" +
+                "} return null;"
+            );
+
+            new Actions(driver)
+                .moveToElement(editedMessage).pause(Duration.ofMillis(800))
+                .moveToElement(triggerDelete).pause(Duration.ofMillis(500))
+                .click().perform();
+            Thread.sleep(2000);
+
+            driver.findElement(By.xpath("//*[normalize-space(text())='Delete']")).click();
+            Thread.sleep(1000);
+
+            WebElement deleteElement = driver.findElement(
+                By.xpath("//div[contains(@class, 'fixed')]//*[text()='Delete']")
+            );
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteElement);
+            System.out.println("Delete confirmed via JavaScript!");
+
+            // Upload files
+            String[] files = {
+                "C:\\Users\\HomePC\\Desktop\\File1.pdf",
+                "C:\\Users\\HomePC\\Desktop\\File2.pdf",
+                "C:\\Users\\HomePC\\Desktop\\File3.pdf",
+                "C:\\Users\\HomePC\\Desktop\\File4.pdf"
+            };
+            FileUploadTest.UploadMultipleFiles(driver, wait, js, files);
+            
+
+            
+            
+            // ── Ticket section ───────────────────────────────────────────────
             WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
+                By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
+            ));
+            ticketsLink.click();
+            System.out.println(" Clicked on Tickets");
+            Thread.sleep(1500);
+
+            for (int i = 1; i <= 50; i++) {
+                System.out.println("Creating Guest Ticket " + i + " of 10");
+
+                WebElement createTicket = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[.//section[text()='Create Ticket']]")
                 ));
-                ticketsLink.click();
-                System.out.println(" Clicked on Tickets");
+                js.executeScript("arguments[0].click();", createTicket);
+                System.out.println(" Create Ticket button clicked");
                 Thread.sleep(1500);
+
+                GuestCustomer guestCustomer = new GuestCustomer(driver);
+                guestCustomer.clickGuestCustomer();
+                guestCustomer.enterPreciseTopic("Test ticket from guest user");
+                guestCustomer.customeremail();
+                guestCustomer.prioritydropdown();
+                guestCustomer.FullName();
+                guestCustomer.phNumber();
+                guestCustomer.CustomerAddress();
+                guestCustomer.selectTeam();
+                guestCustomer.SuggestedMember();
+                guestCustomer.TicketDescription();
+                guestCustomer.AgentNotes();
+                guestCustomer.Clickcreatebtn();
+                Thread.sleep(1000);
+            }
             */
 
 
-            
-            // ── Step 4: Select and open Demo chat
-            System.out.println("Step 5: Selecting Demo chat...");
-            Thread.sleep(1000);
+            /*
+            // ── Loop: Create 100 tickets in normal ────────────────────────────
+            for (int i = 1; i <= totalTickets; i++) {
+                System.out.println("\n========================================");
+                System.out.println("🎫 Creating Ticket " + i + " of " + totalTickets);
 
-            try {
-                WebElement demoChat = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//span[normalize-space(text())='demo']")
-                ));
-                demoChat.click();
-                System.out.println("Clicked Demo chat successfully!");
-            } catch (Exception e) {
-                // If that fails, try clicking the parent
-                WebElement demoChat = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//span[text()='demo']/parent::button")
-                ));
-                demoChat.click();
-            }
+                try {
+                    WebElement createTicket = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[.//section[text()='Create Ticket']]")
+                    ));
+                    js.executeScript("arguments[0].click();", createTicket);
+                    System.out.println("✓ Create Ticket button clicked");
+                    Thread.sleep(1500);
 
-            // ── Send "Demo" message
-            int i=1;
-            for(i=0;i<=100;i++) {
-            WebElement input = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//div[@contenteditable='true']")
-            ));
-            input.click();
-            input.sendKeys("Msg gaieracha.....");
-            Thread.sleep(500);
-            input.sendKeys(Keys.ENTER);
-            System.out.println("Demo message sent!");
-            Thread.sleep(500);
+                    NormalCustomer ticketForm = new NormalCustomer(driver, wait, js);
+                    ticketForm.fillTicketForm();
+
+                    successCount++;
+                    System.out.println(" Ticket " + i + " created! [Success: " + successCount + " | Fail: " + failCount + "]");
+                    Thread.sleep(500);
+
+                } catch (Exception e) {
+                    failCount++;
+                    System.out.println("❌ Ticket " + i + " FAILED: " + e.getMessage().split("\n")[0]);
+                    System.out.println("   [Success: " + successCount + " | Fail: " + failCount + "]");
+
+                    try {
+                        WebElement closeBtn = driver.findElement(
+                            By.xpath("//div[@role='dialog']//button[@aria-label='Close' or normalize-space()='Cancel' or normalize-space()='×']")
+                        );
+                        js.executeScript("arguments[0].click();", closeBtn);
+                        Thread.sleep(500);
+                    } catch (Exception ignore) {
+                        driver.findElement(By.tagName("body")).sendKeys(Keys.ESCAPE);
+                        Thread.sleep(500);
+                    }
+                }
             }
+            */
+
+
+            // ── Clients Section ───────────────────────────────────────────────
+            /*       int i;
+            CreateClients createClients = new CreateClients(driver, wait, js);
+            createClients.clickclientoption();
+            for (i = 1; i <= 200; i++) {
+                createClients.clickNewEntry();
+                Thread.sleep(1000);
+                createClients.Fullname();
+                createClients.Email();
+                createClients.phnum();
+                createClients.selectPlatform();
+                createClients.selectCountry();
+                createClients.enterLocation("ktm");
+                createClients.Profilelink();
+                createClients.InternalNotes();
+                createClients.createnotebtn();
+            }
+            */
+            Agentlimit agentLimit = new Agentlimit(wait, driver, js, emailAutomate);
+
         } catch (Exception e) {
             System.out.println("Error in main execution: " + e.getMessage());
             e.printStackTrace();
         } finally {
             Thread.sleep(1000);
-        
-            
+            // Close email browser if still open
+            // if (emailAutomate != null) {
+            //     emailAutomate.closeEmailBrowser();
+            // }
             System.out.println("Process completed. Browser can be closed manually.");
         }
-        
     }
 }
