@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import emailAutomate.Emailautomate;
+import org.openqa.selenium.interactions.Actions;
 
 public class Agentlimit {
 
@@ -66,10 +67,23 @@ public class Agentlimit {
         Thread.sleep(3000);
         wait.until(ExpectedConditions.jsReturnsValue("return document.readyState === 'complete'"));
         
-        WebElement settings = wait.until(ExpectedConditions.elementToBeClickable(
+     /*   WebElement settings = wait.until(ExpectedConditions.elementToBeClickable(
             By.xpath("//span[@class='truncate' and text()='Settings']")
         ));
-        settings.click();
+        settings.click();*/
+        
+        
+        
+     // Method 1: Click by href attribute
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(@href, '/settings/account/information')]")
+            )).click();
+            System.out.println("Setting clicked bhayo.....");
+        } catch (Exception e) {
+            System.out.println("Settings click bhayena..... " + e.getMessage());
+        }
+          
         Thread.sleep(1000);
         System.out.println("Application state reset");
     }
@@ -77,10 +91,11 @@ public class Agentlimit {
     private String sendInvitation() throws InterruptedException {
         System.out.println("Sending invitation...");
         
-        WebElement settings = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//span[@class='truncate' and text()='Settings']")
-        ));
-        settings.click();
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(@href, '/settings/account/information')]")
+            )).click();
+        
+     
         Thread.sleep(1000);
         
         WebElement organization = wait.until(ExpectedConditions.elementToBeClickable(

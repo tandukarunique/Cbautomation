@@ -1,8 +1,6 @@
 package stater;
 
 import org.openqa.selenium.By;
-import emailAutomate.Emailautomate;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -13,98 +11,105 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
-import java.util.List;
+import emailAutomate.Emailautomate;
 
-import Ticket.GuestCustomer;
-import Ticket.NormalCustomer;
+// import Ticket.GuestCustomer;
+// import Ticket.NormalCustomer;
 
 public class LoginWithCookies {
 
-    static final String TOKEN    = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWlkIjoiNGZjMWYxZGYtY2E1Yy00YzEwLWFjMzYtYjA1YjNkZTdkNmVhIiwiZW1haWwiOiJ1bmlxdWV0YW5kdWthcjg2NDVAZ21haWwuY29tIiwiZXhwIjoxNzc3MDg5MDA2fQ.tg7v9aLpSqN3Jp-Oy3k-pi16gQIz5pgCVGmSesff7pk";
     static final String EMAIL    = "uniquetandukar8645@gmail.com";
+    static final String PASSWORD = "Tha chaina 098!";
     static final String BASE_URL = "https://dev.chatboq.com";
+    static final String ORG_ID   = "b4cdf57d-a4b4-462b-aa9e-2ffc762fa82a";
+    
 
     public static void main(String[] args) throws Exception {
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-notifications", "--no-sandbox",
-                             "--disable-dev-shm-usage", "--remote-allow-origins=*");
+        options.addArguments(
+            "--disable-notifications",
+            "--no-sandbox",
+            "--disable-dev-shm-usage",
+            "--remote-allow-origins=*"
+        );
 
         WebDriver driver = new ChromeDriver(options);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-
-        // Create first email automation instance (normal mode)
-   //    Emailautomate emailAutomate = new Emailautomate(false); // false = normal mode
-
-        int totalTickets = 100;
-        int successCount = 0;
-        int failCount    = 0;
-
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+       // Emailautomate emailAutomate = null;
+       
         try {
             driver.manage().window().maximize();
 
-            // Step 1: Login
-            System.out.println("Step 1: Logging in...");
-            driver.get(BASE_URL + "/login");
-            Thread.sleep(1000);
-
-            js.executeScript("localStorage.setItem('accessToken', arguments[0]);", TOKEN);
-            js.executeScript("localStorage.setItem('rememberedEmail', arguments[0]);", EMAIL);
-            driver.manage().addCookie(new Cookie.Builder("accessToken", TOKEN)
-                .domain("dev.chatboq.com").path("/").isHttpOnly(true).build());
-            driver.get(BASE_URL + "/4758a134-3b32-4308-a5d4-fd3a3aa7f1ed/inbox");
-            Thread.sleep(2000);
-
-            System.out.println("Logged in! URL: " + driver.getCurrentUrl());
-
-            
-            // Step 2: Click on profile/workspace icon to open sidebar menu
-            System.out.println("Clicking circle wala left side ko.....");
-            try {
-
-                String cssSelector = "div.bg-primary-color.flex.h-8.w-8.shrink-0.items-center.justify-center.rounded-full.font-medium.text-background";
-                            
-                WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(5));
-                WebElement element = wait1.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssSelector)));
-                element.click();
-                                                
-            } catch (Exception e) {
-                System.err.println("Failed to click element: " + e.getMessage());
-            } 
-            
-            //Step 3: Click on org name
-            
-            try {
-            	WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(10));
-            	wait1.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[text()='All']"))).click();
+            // ── LOGIN (no CAPTCHA after first run) ─────────────────────────
+            Loginpage loginPage = new Loginpage(driver);  
+            boolean authLoaded = loginPage.loadSavedAuth();
+            if (!authLoaded) {
+                loginPage.manualLoginWithCaptcha(EMAIL, PASSWORD);
             }
-            catch(Exception e) {
-            	System.out.println("Org name click bhayena...");
-            }
-     
-            System.out.println("Switch Organization clicked!");
+            loginPage.gotoAuthenticated("/inbox", ".*\\/inbox.*");
+            System.out.println("Login successful! URL: " + driver.getCurrentUrl());
+            // ───────────────────────────────────────────────────────────────
 
             
-          /*  
+            
+            		// Org name click garera switch garne
+                
+            /*        WebElement starterRow = wait.until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath("//span[text()='Finalfree']/ancestor::div[contains(@class,'rounded-md border')]")
+                    ));
+                    starterRow.findElement(By.xpath(".//section[text()='Switch']")).click();
+                    System.out.println("Switched to Starter! (Method 1)");
+              */
+            
+                    
+                    
+                    
+                    
+                    
+                    
+           /*         System.out.println("Clicking circle wala left side ko.....");
+                    try {
+
+                        String cssSelector = "div.bg-primary-color.flex.h-8.w-8.shrink-0.items-center.justify-center.rounded-full.font-medium.text-background";
+                                    
+                        WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(5));
+                        WebElement element = wait1.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssSelector)));
+                        element.click();
+                                                        
+                    } catch (Exception e) {
+                        System.err.println("Failed to click element: " + e.getMessage());
+                    } 
+             */      
+                    
+                    
+                    
+                    
+                    
+                    
+                    // Switch org click
+                    wait.until(ExpectedConditions.elementToBeClickable(
+            		By.xpath("//section[text()='Switch Organization']")
+                    		)).click();
+                    System.out.println("Switch Organization clicked!");
+            
+
+                    
+                    
+                    
+
+            /*
             WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
                     By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
                 ));
                 ticketsLink.click();
                 System.out.println(" Clicked on Tickets");
                 Thread.sleep(1500);
-                
+            */
 
-                */
-                
-                
-            
-            
-            
-            
 
             
-            /*
             // ── Step 4: Select and open Demo chat
             System.out.println("Step 5: Selecting Demo chat...");
             Thread.sleep(1000);
@@ -120,7 +125,6 @@ public class LoginWithCookies {
                 System.out.println("Could not find Demo chat: " + e2.getMessage());
             }
 
-           
             // ── Send "Demo" message
             WebElement input = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//div[@contenteditable='true']")
@@ -131,6 +135,8 @@ public class LoginWithCookies {
             input.sendKeys(Keys.ENTER);
             System.out.println("Demo message sent!");
             Thread.sleep(500);
+            
+            /*
 
             // ── EDIT
             WebElement demoMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -214,63 +220,53 @@ public class LoginWithCookies {
                 "C:\\Users\\HomePC\\Desktop\\File4.pdf"
             };
             FileUploadTest.UploadMultipleFiles(driver, wait, js, files);
-
             */
 
 
-            
-            
+            /*
             // ── Ticket section ───────────────────────────────────────────────
-           /*
-                
-                    WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
-                    ));
-                    ticketsLink.click();
-                    System.out.println(" Clicked on Tickets");
-                    Thread.sleep(1500);
-                    
+            WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
+            ));
+            ticketsLink.click();
+            System.out.println(" Clicked on Tickets");
+            Thread.sleep(1500);
 
-                    for (int i = 1; i <= 50; i++) {
-                    	System.out.println("Creating Guest Ticket " + i + " of 10");
-                    
-                    WebElement createTicket = wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//button[.//section[text()='Create Ticket']]")
-                    ));
-                    js.executeScript("arguments[0].click();", createTicket);
-                    System.out.println(" Create Ticket button clicked");
-                    Thread.sleep(1500);
-                    
-                  //Guest Customer
-                    GuestCustomer guestCustomer = new GuestCustomer(driver);
-                    guestCustomer.clickGuestCustomer();
-                    guestCustomer.enterPreciseTopic("Test ticket from guest user");
-                    guestCustomer.customeremail();
-                    guestCustomer.prioritydropdown();
-                    guestCustomer.FullName();
-                    guestCustomer.phNumber();
-                    guestCustomer.CustomerAddress();
-                    guestCustomer.selectTeam();
-                    guestCustomer.SuggestedMember();
-                    guestCustomer.TicketDescription();
-                    guestCustomer.AgentNotes();
-                    guestCustomer.Clickcreatebtn();
-                    Thread.sleep(1000);
-             
-                    }
-            
-            
+            for (int i = 1; i <= 50; i++) {
+                System.out.println("Creating Guest Ticket " + i + " of 10");
+
+                WebElement createTicket = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[.//section[text()='Create Ticket']]")
+                ));
+                js.executeScript("arguments[0].click();", createTicket);
+                System.out.println(" Create Ticket button clicked");
+                Thread.sleep(1500);
+
+                GuestCustomer guestCustomer = new GuestCustomer(driver);
+                guestCustomer.clickGuestCustomer();
+                guestCustomer.enterPreciseTopic("Test ticket from guest user");
+                guestCustomer.customeremail();
+                guestCustomer.prioritydropdown();
+                guestCustomer.FullName();
+                guestCustomer.phNumber();
+                guestCustomer.CustomerAddress();
+                guestCustomer.selectTeam();
+                guestCustomer.SuggestedMember();
+                guestCustomer.TicketDescription();
+                guestCustomer.AgentNotes();
+                guestCustomer.Clickcreatebtn();
+                Thread.sleep(1000);
+            }
             */
-            
-            /*  
-           //  ── Loop: Create 100 tickets in normal ─────────────────────────────────────
+
+
+            /*
+            // ── Loop: Create 100 tickets in normal ────────────────────────────
             for (int i = 1; i <= totalTickets; i++) {
                 System.out.println("\n========================================");
                 System.out.println("🎫 Creating Ticket " + i + " of " + totalTickets);
-                
 
                 try {
-                    // Click Create Ticket button
                     WebElement createTicket = wait.until(ExpectedConditions.elementToBeClickable(
                         By.xpath("//button[.//section[text()='Create Ticket']]")
                     ));
@@ -278,7 +274,6 @@ public class LoginWithCookies {
                     System.out.println("✓ Create Ticket button clicked");
                     Thread.sleep(1500);
 
-                    // Fill the form
                     NormalCustomer ticketForm = new NormalCustomer(driver, wait, js);
                     ticketForm.fillTicketForm();
 
@@ -291,7 +286,6 @@ public class LoginWithCookies {
                     System.out.println("❌ Ticket " + i + " FAILED: " + e.getMessage().split("\n")[0]);
                     System.out.println("   [Success: " + successCount + " | Fail: " + failCount + "]");
 
-                    // Try to close open modal before next iteration
                     try {
                         WebElement closeBtn = driver.findElement(
                             By.xpath("//div[@role='dialog']//button[@aria-label='Close' or normalize-space()='Cancel' or normalize-space()='×']")
@@ -299,51 +293,43 @@ public class LoginWithCookies {
                         js.executeScript("arguments[0].click();", closeBtn);
                         Thread.sleep(500);
                     } catch (Exception ignore) {
-                        // Fallback: press Escape
                         driver.findElement(By.tagName("body")).sendKeys(Keys.ESCAPE);
                         Thread.sleep(500);
                     }
                 }
             }
-
             */
-            
-                
-                
-                
-                
-                
-                
-           //Clients Section 
-                
-            CreateClients createClients = new CreateClients(driver,wait,js);
+
+
+            // ── Clients Section ───────────────────────────────────────────────
+     /*       int i;
+            CreateClients createClients = new CreateClients(driver, wait, js);
             createClients.clickclientoption();
-            createClients.clickNewEntry();
-            Thread.sleep(1000);
-            createClients.Fullname();
-            createClients.Email();
-            createClients.phnum();
-            createClients.selectPlatform();
-            createClients.selectCountry();  
-            createClients.enterLocation("ktm");
-            createClients.Profilelink();
-            
-            
-                
-                
+            for (i = 1; i <= 200; i++) {
+                createClients.clickNewEntry();
+                Thread.sleep(1000);
+                createClients.Fullname();
+                createClients.Email();
+                createClients.phnum();
+                createClients.selectPlatform();
+                createClients.selectCountry();
+                createClients.enterLocation("ktm");
+                createClients.Profilelink();
+                createClients.InternalNotes();
+                createClients.createnotebtn();
+            }
+            */
+          //  Agentlimit agentLimit = new Agentlimit(wait, driver, js, emailAutomate);
 
         } catch (Exception e) {
-            System.out.println(" Error in main execution: " + e.getMessage());
+            System.out.println("Error in main execution: " + e.getMessage());
             e.printStackTrace();
         } finally {
             Thread.sleep(1000);
             // Close email browser if still open
-          //  if (emailAutomate != null) {
-          //      emailAutomate.closeEmailBrowser();
-          //  }
-
-        
-            
+            // if (emailAutomate != null) {
+            //     emailAutomate.closeEmailBrowser();
+            // }
             System.out.println("Process completed. Browser can be closed manually.");
         }
     }

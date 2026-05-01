@@ -5,10 +5,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.devtools.idealized.Javascript;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
+import java.util.Random;
 
 public class CreateClients {
 
@@ -19,19 +20,22 @@ public class CreateClients {
     // Constructor
     public CreateClients(WebDriver driver, WebDriverWait wait, JavascriptExecutor js) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = wait;
         this.js = (JavascriptExecutor) driver;
     }
     
     
     public void clickclientoption() {
-    	
-    	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'/clients')]"))).click();
-  	
-    }
-    
-    
-
+	  try {
+          wait.until(ExpectedConditions.elementToBeClickable(
+              By.xpath("//a[.//p[contains(text(),'Clients')]]")
+          )).click();
+          System.out.println("\nClient click bhayo....");
+               } catch (Exception e) {
+          System.out.println("\nClient click bhayena " + e.getMessage());
+      }
+    }  
+  
     public void clickNewEntry() {
 
         wait.until(ExpectedConditions.elementToBeClickable(
@@ -40,17 +44,37 @@ public class CreateClients {
     }
     
     public void Fullname() {
-    	wait.until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys("Demo kumer kumer");
+    	  Random random = new Random();
+    	    
+    	    String[] firstNames = {
+    	        "Unique", "Sonu", "Kyurosh", "Parinita", "Hello", "Demo sathi", "Vikram", "Pooja",
+    	         "Demo kumar", "Try kumar", "kcha", "Thikha", "Thikchaina", "Helloagain", "Hellothree", "Hellotwo"
+    	    };
+    	    
+    	    String[] lastNames = {
+    	        "Dai", "Hoho", "Demo", "Demosathi", "Hello", "Hi", "Bye",
+    	        "How", "When","Because"
+    	    };
+    	    
+    	    String firstName = firstNames[random.nextInt(firstNames.length)];
+    	    String lastName = lastNames[random.nextInt(lastNames.length)];
+    	    String fullName = firstName + " " + lastName;
+    	    
+    	    wait.until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(fullName);
+    	    System.out.println("Generated Name: " + fullName);
     }
     
     public void Email() {
-    	wait.until(ExpectedConditions.elementToBeClickable(By.id("email"))).sendKeys("demo@gds.com");
+    	
+    	String timestamp = String.valueOf(System.currentTimeMillis());
+    	String dynamicEmail = "demo" + timestamp + "@gds.com";
+    	wait.until(ExpectedConditions.elementToBeClickable(By.id("email"))).sendKeys(dynamicEmail);
+    	System.out.println("Created email: " + dynamicEmail);
     }
     
     public void phnum() {
     	wait.until(ExpectedConditions.elementToBeClickable(By.id("phone"))).sendKeys("9800033307");
     }
-    
     
     public void selectPlatform() throws InterruptedException {
     try {
@@ -59,7 +83,7 @@ public class CreateClients {
             By.xpath("//*[@data-state='closed' and contains(@class, 'group')]")
         ));
         js.executeScript("arguments[0].click();", platform);
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         
         WebElement firstOption = wait.until(ExpectedConditions.elementToBeClickable(
@@ -73,28 +97,21 @@ public class CreateClients {
     }
     }
     
-    public void selectCountry() {
-
-            wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//button[@data-slot='select-trigger' and .//span[@data-slot='select-value' and text()='Select Country']]")
-            )).click();
-            System.out.println("Approach succeeded: Located by data-slot and span text");
-          
-            try {
-                WebElement hiddenSelect = driver.findElement(By.cssSelector("select[name='country']"));
-                ((JavascriptExecutor) driver).executeScript(
-                    "arguments[0].value = '81';" +
-                    "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));",
-                    hiddenSelect
-                );
-                System.out.println("Nepal set via hidden select successfully");
-            } catch (Exception e) {
-                System.out.println("Failed to set Nepal via hidden select: " + e.getMessage());
-                throw new RuntimeException("Could not set Nepal on hidden select", e);
-            }
-        
-     driver.findElement(By.xpath("//h2[data-slot='dialog-title']")).click();
-        
+    public void selectCountry() throws InterruptedException {
+    	try {
+    		WebElement drop =  wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@data-slot='select-trigger' and .//span[@data-slot='select-value' and text()='Select Country']]")
+                ));
+      	
+      	drop.sendKeys("Nepal"+ Keys.ENTER);
+      	
+      	Actions actions = new Actions(driver);
+      	actions.sendKeys(Keys.ESCAPE).perform();
+    	}
+    	catch(Exception e) {
+    		System.out.println("1 bhayena");
+    	}  
+  
     }
  
     public void enterLocation(String location) throws InterruptedException {
@@ -114,7 +131,33 @@ public class CreateClients {
     }
     
     public void Profilelink() {
-    	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[text()='Add Profile Link']"))).click();
+    	//Add profile link btn click garne.....
+    	WebElement profileurl =wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[text()='Add Profile Link']")));
+    	profileurl.click();
+    	
+    
+    	//https:link halne.....
+    	wait.until(ExpectedConditions.elementToBeClickable(By.id("social_links.0.link"))).sendKeys("https://instagram.com");
+    	
+    	//Click source....
+    	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-slot='select-trigger' and .//span[@data-slot='select-value' and contains(text(), 'Source')]]"))).click();
+    	
+    	//Click platform
+    	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[span[text()='Instagram']]"))).click();
+    }
+    
+    public void InternalNotes() {
+    	
+    	try {
+    		wait.until(ExpectedConditions.elementToBeClickable(By.name("note"))).sendKeys("Demo note");
+    		System.out.println("Internal notes click le bhayo...");
+    	}
+    	catch(Exception e1) {
+    		System.out.println("Internal notes click bhayo....");  	
+    	}
+    }
+    public void createnotebtn() {
+    	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[text()='Create Client']"))).click();
     }
     
     
