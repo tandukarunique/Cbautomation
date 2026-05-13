@@ -9,6 +9,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import Ticket.Ticketactions;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import java.util.concurrent.TimeoutException;
@@ -40,7 +43,7 @@ public class LoginWithCookies {
         WebDriver driver = new ChromeDriver(options);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        Emailautomate emailAutomate = new Emailautomate(true);
+       // Emailautomate emailAutomate = new Emailautomate(true);
        
         try {
             driver.manage().window().maximize();
@@ -57,22 +60,16 @@ public class LoginWithCookies {
 
             
             
-            		// Org name click garera switch garne
+            /*      // Org name click garera switch garne
                 
             WebElement starterRow = wait.until(ExpectedConditions.presenceOfElementLocated(
-            By.xpath("//span[text()='Allnew']/ancestor::div[contains(@class,'rounded-md border')]")
+            By.xpath("//span[text()='Starterplan....']/ancestor::div[contains(@class,'rounded-md border')]")
             ));
             starterRow.findElement(By.xpath(".//section[text()='Switch']")).click();
             System.out.println("Switched to Starter! (Method 1)");
-              
             
                     
-                    
-                    
-                    
-                    
-                    
-           /*         System.out.println("Clicking circle wala left side ko.....");
+           System.out.println("Clicking circle wala left side ko.....");
                     try {
 
                         String cssSelector = "div.bg-primary-color.flex.h-8.w-8.shrink-0.items-center.justify-center.rounded-full.font-medium.text-background";
@@ -85,23 +82,69 @@ public class LoginWithCookies {
                         System.err.println("Failed to click element: " + e.getMessage());
                     } 
              */      
-                    
-                    
-                    
-                    
-                    
-                    
-                    // Switch org click
-                    wait.until(ExpectedConditions.elementToBeClickable(
-            		By.xpath("//section[text()='Switch Organization']")
-                    		)).click();
-                    System.out.println("Switch Organization clicked!");
-            
+         
+            /*      // Switch org click
+            wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//section[text()='Switch Organization']")
+            )).click();
+            System.out.println("Switch Organization clicked!");
+           
+    
+           
+            // ── Step 4: Select and open Demo chat
+            System.out.println("Step 5: Selecting Demo chat...");
+            Thread.sleep(1000);
 
+           try {
+        	   
+        	   WebElement demoChat = wait.until(ExpectedConditions.presenceOfElementLocated(
+        	       By.xpath("//span[normalize-space(text())='Demo']")
+        	   ));
+        	   demoChat.click();
+                js.executeScript("arguments[0].click();", demoChat);
+                System.out.println("Demo chat selected using contains text!");
+                Thread.sleep(1000);
+            } catch (Exception e2) {
+                System.out.println("Could not find Demo chat: " + e2.getMessage());
+            }
+
+           
+      */     
+     
+        		
+            
+            
+            
+            
+            
+             
+            try {
+                
+      		  WebElement demoChat = wait.until(ExpectedConditions.elementToBeClickable(
+      				    By.xpath("//span[contains(translate(text(), 'DEMO', 'demo'), 'demo')]")
+      				));
+      				js.executeScript("arguments[0].click();", demoChat);
+        System.out.println("Demo chat selected using contains text!");
+        Thread.sleep(1000);
+    } catch (Exception e2) {
+        System.out.println("Could not find Demo chat: " + e2.getMessage());
+    }
+            
+ 
+     
+          /*  // ── Send "Demo" message
+            for(int i=0; i<=500; i++) {
+                WebElement input = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[@contenteditable='true']")
+                ));
+                input.click();
+                input.sendKeys("Demo " + i);
+                Thread.sleep(500);
+                input.sendKeys(Keys.ENTER);
+                System.out.println("Demo message " + i + " sent!");
+                Thread.sleep(500);
+            }
                     
-                    
-                    
-                    /*
             // ── EDIT
             WebElement demoMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//p[contains(@class,'leading-7')]//span[contains(text(),'Demo')]")
@@ -176,15 +219,9 @@ public class LoginWithCookies {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteElement);
             System.out.println("Delete confirmed via JavaScript!");
 
-            // Upload files
-            String[] files = {
-                "C:\\Users\\HomePC\\Desktop\\File1.pdf",
-                "C:\\Users\\HomePC\\Desktop\\File2.pdf",
-                "C:\\Users\\HomePC\\Desktop\\File3.pdf",
-                "C:\\Users\\HomePC\\Desktop\\File4.pdf"
-            };
-            FileUploadTest.UploadMultipleFiles(driver, wait, js, files);
-            
+
+
+           
 
             
             
@@ -222,7 +259,10 @@ public class LoginWithCookies {
                 Thread.sleep(1000);
             }
             */
-
+            
+            
+            //Ticket action perform garne....
+            //Ticketactions ticketActions = new Ticketactions(driver);
 
             /*
             // ── Loop: Create 100 tickets in normal ────────────────────────────
@@ -264,9 +304,9 @@ public class LoginWithCookies {
             }
             */
 
-
+/*
             // ── Clients Section ───────────────────────────────────────────────
-            /*       int i;
+                   int i;
             CreateClients createClients = new CreateClients(driver, wait, js);
             createClients.clickclientoption();
             for (i = 1; i <= 200; i++) {
@@ -282,9 +322,26 @@ public class LoginWithCookies {
                 createClients.InternalNotes();
                 createClients.createnotebtn();
             }
+            
             */
-            Agentlimit agentLimit = new Agentlimit(wait, driver, js, emailAutomate);
+          //  Agentlimit agentLimit = new Agentlimit(wait, driver, js, emailAutomate);
 
+            
+            int i;
+            for (i=0;i<10;i++) {
+            // Upload files
+            String[] files = {
+                "C:\\Users\\HomePC\\Desktop\\File1.pdf",
+                "C:\\Users\\HomePC\\Desktop\\File2.pdf",
+                "C:\\Users\\HomePC\\Desktop\\File3.pdf",
+                "C:\\Users\\HomePC\\Desktop\\File4.pdf"
+            };
+            FileUploadTest.UploadMultipleFiles(driver, wait, js, files);
+            
+            }
+            
+            
+            
         } catch (Exception e) {
             System.out.println("Error in main execution: " + e.getMessage());
             e.printStackTrace();

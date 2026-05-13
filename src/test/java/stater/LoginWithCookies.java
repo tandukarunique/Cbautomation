@@ -63,11 +63,7 @@ public class LoginWithCookies {
                     System.out.println("Switched to Starter! (Method 1)");
               */
             
-                    
-                    
-                    
-                    
-                    
+           
                     
            /*         System.out.println("Clicking circle wala left side ko.....");
                     try {
@@ -81,27 +77,21 @@ public class LoginWithCookies {
                     } catch (Exception e) {
                         System.err.println("Failed to click element: " + e.getMessage());
                     } 
-             */      
+            		*/      
                     
+                
                     
-                    
-                    
-                    
-                    
-                    // Switch org click
-                    wait.until(ExpectedConditions.elementToBeClickable(
-            		By.xpath("//section[text()='Switch Organization']")
-                    		)).click();
-                    System.out.println("Switch Organization clicked!");
+                // Switch org click
+                wait.until(ExpectedConditions.elementToBeClickable(
+          		By.xpath("//section[text()='Switch Organization']")
+           		)).click();
+                System.out.println("Switch Organization clicked!");
             
-
-                    
-                    
-                    
+    
 
             /*
-            WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
+            	WebElement ticketsLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(@class, 'truncate') and text()='Tickets']")
                 ));
                 ticketsLink.click();
                 System.out.println(" Clicked on Tickets");

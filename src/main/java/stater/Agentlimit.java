@@ -76,16 +76,25 @@ public class Agentlimit {
         
      // Method 1: Click by href attribute
         try {
-            wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(@href, '/settings/account/information')]")
-            )).click();
-            System.out.println("Setting clicked bhayo.....");
-        } catch (Exception e) {
-            System.out.println("Settings click bhayena..... " + e.getMessage());
-        }
+			 String currentUrl = driver.getCurrentUrl();
+	            System.out.println("Current URL: " + currentUrl);
+	           
+	            String workspaceId = currentUrl.split("/")[3];
+	            String settingsUrl = "https://dev.chatboq.com/" + workspaceId + "/settings/account/information";
+	            
+	            System.out.println("Navigating directly to: " + settingsUrl);
+	            driver.get(settingsUrl);
+	            
+	            // Wait for page to load
+	            Thread.sleep(3000);
+	            System.out.println("✅ Settings page loaded");
+		 }
+		 catch (Exception e) {
+			 System.out.println("\nSetting btn click bhayena: " + e.getMessage());
+		 }
           
         Thread.sleep(1000);
-        System.out.println("Application state reset");
+    
     }
     
     private String sendInvitation() throws InterruptedException {
@@ -98,12 +107,20 @@ public class Agentlimit {
      
         Thread.sleep(1000);
         
-        WebElement organization = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//button[text()='Organization']")
+        
+        
+        
+        
+        //Org btn click
+         WebElement organization = wait.until(ExpectedConditions.elementToBeClickable(
+         By.xpath("//button[text()='Organization']")
         ));
         organization.click();
         Thread.sleep(500);
         
+        
+        
+        //Operator click
         WebElement operatorTeam = null;
         for (int retry = 0; retry < 3; retry++) {
             try {
@@ -126,6 +143,10 @@ public class Agentlimit {
         
         operatorTeam.click();
         Thread.sleep(500);
+        
+        
+        
+        
         
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Invitation']"))).click();
         Thread.sleep(300);
@@ -194,6 +215,31 @@ public class Agentlimit {
     			} catch (Exception e) {
     			    System.out.println("Team selection failed: " + e.getMessage());
     			}
+    			
+    			try {
+    			    WebElement teamInput = wait.until(ExpectedConditions.elementToBeClickable(
+    			        By.xpath("(//input[contains(@id, 'react-select') and @role='combobox'])[2]")
+    			    ));
+    			    js.executeScript("arguments[0].scrollIntoView({block: 'center'});", teamInput);
+    			    Thread.sleep(500);
+    			    teamInput.click();
+    			    Thread.sleep(500);
+    			    
+    			    // Wait for dropdown option and click directly
+    			    WebElement option = wait.until(ExpectedConditions.elementToBeClickable(
+    			        By.xpath("//div[contains(@class, 'option') and text()='Your Team Name']") // Replace with actual team name
+    			    ));
+    			    option.click();
+    			    
+    			    System.out.println("Team selected");
+    			} catch (Exception e1) {
+    			    System.out.println("Team selection failed: " + e1.getMessage());
+    			}
+    			
+    			
+    			
+    			
+    			
     }
     
     private boolean acceptInvitation() throws InterruptedException {
